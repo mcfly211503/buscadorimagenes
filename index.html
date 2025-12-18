@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Buscador Local GitHub</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; background-color: #f4f4f4; }
+        .box { background: white; padding: 20px; border-radius: 10px; display: inline-block; shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        input { padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        #resultado { margin-top: 20px; }
+        img { max-width: 300px; display: none; margin: 0 auto; border: 3px solid #ddd; }
+        #error { color: red; display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="box">
+        <h2>Buscar Imagen</h2>
+        <input type="text" id="direccion" placeholder="Nombre de la imagen...">
+        <button onclick="buscar()">Buscar</button>
+
+        <div id="resultado">
+            <p id="error">La imagen no existe en la carpeta /imagenes</p>
+            <img id="visor" src="" alt="Imagen de dirección">
+        </div>
+    </div>
+
+    <script>
+        function buscar() {
+            const nombre = document.getElementById('direccion').value.trim();
+            const img = document.getElementById('visor');
+            const error = document.getElementById('error');
+
+            if (nombre === "") return;
+
+            // Construimos la ruta relativa: carpeta imagenes + nombre + extensión
+            const rutaRelativa = `imagenes/${nombre}.png`;
+
+            // Resetear estados
+            img.style.display = "none";
+            error.style.display = "none";
+
+            // Intentar cargar la imagen
+            const verificador = new Image();
+            verificador.src = rutaRelativa;
+
+            verificador.onload = function() {
+                img.src = rutaRelativa;
+                img.style.display = "block";
+            };
+
+            verificador.onerror = function() {
+                error.style.display = "block";
+            };
+        }
+    </script>
+
+</body>
+</html>
